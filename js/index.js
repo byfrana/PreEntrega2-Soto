@@ -1,54 +1,50 @@
-//Calculadora de IVA
+function ventaDeIlustraciones() {
+	// Lista de ilustraciones
+	const ILUS = [
+		{ codigo: 1, nombre: 'Dolce & Gabbana', precio: 35000 },
+		{ codigo: 2, nombre: 'Versace', precio: 28000 },
+		{ codigo: 3, nombre: 'Burberry', precio: 32000 },
+	];
 
-function calculadoraDeIva() {
-	let total; // monto total
-	let neto; // monto neto
-	let iva; // monto iva
+	let total = 0;
+	let venta = true;
 
-	console.log(`Opción 1: Calcular en Monto Total y el IVA de un Neto`);
-	console.log(`Opción 2: Calcular en Monto Neto y el IVA de un Total`);
-	console.log(`Opción 3: Calcular en Monto Neto y el Total a partir del IVA`);
-	const OPCION = parseFloat(prompt('Ingrese opcion 1, 2 o 3'));
+	while (venta) {
+		// crear la lista de ilustraciones
+		let lista = 'Selecciona las Ilustraciones en venta por su código: (1,2 o 3)\n';
+		ILUS.forEach((ILUS) => {
+			lista += `${ILUS.codigo} - ${ILUS.nombre} $${ILUS.precio}\n`;
+		});
 
-	switch (OPCION) {
-		case 1:
-			neto = parseFloat(prompt('Ingrese un Monto Neto'));
+		// mostrar la lista para seleccionar
+		let seleccionLista = parseInt(prompt(lista)) - 1;
 
-			if (!isNaN(neto) && neto > 0) {
-				iva = neto * 0.19;
-				total = neto + iva;
-				console.log(`El monto Neto ingresado es $${neto}. El IVA es de $${iva.toFixed(0)} y el monto Total con IVA es de $${total.toFixed(0)}`);
-			} else {
-				console.log('Ingrese un número válido para el Monto Neto');
-			}
-			break;
-		case 2:
-			total = parseFloat(prompt('Ingrese un Monto Total'));
-			if (!isNaN(total) && total > 0) {
-				neto = total / 1.19;
-				iva = total - neto;
-				console.log(`El monto Total ingresado es $${total}. El IVA es de $${iva.toFixed(0)} y el monto Neto es de $${neto.toFixed(0)}`);
-			} else {
-				console.log('Ingrese un número válido para el Monto Total');
-			}
-			break;
-		case 3:
-			iva = parseFloat(prompt('Ingrese el monto del IVA'));
-			if (!isNaN(iva) && iva > 0) {
-				neto = iva / 0.19;
-				total = neto + iva;
-				console.log(`El IVA ingresado es $${iva}. El Neto es $${neto.toFixed(0)} y el monto Total con IVA es de $${total.toFixed(0)}`);
-			} else {
-				console.log('Ingrese un número válido para el IVA');
-			}
-			break;
-
-		default:
-			console.log('Esta opción no existe.');
+		// es valida
+		if (seleccionLista >= 0 && seleccionLista < ILUS.length) {
+			// Obtener el producto seleccionado
+			let ilustracion = ILUS[seleccionLista];
+			// Sumar el precio del producto seleccionado al total
+			total += ilustracion.precio;
+			// Mostrar información del producto seleccionado
+			console.log('Seleccionaste ' + ilustracion.nombre);
+		} else {
+			console.log('Selección inválida. Intenta otra vez.');
+		}
+		// Preguntar al usuario si desea agregar más productos
+		let respuesta = prompt('¿Quieres agregar otra ilustración? (si, no)').toLowerCase();
+		if (respuesta !== 'si') {
+			venta = false;
+		}
 	}
+
+	const neto = total / 1.19; // Calcular el total neto
+	const iva = total - neto; // Calcular el IVA
+
+	console.log('El total neto es: $' + neto.toFixed(0));
+	console.log('El IVA es: $' + iva.toFixed(0));
+	console.log('El total con IVA incluido es: $' + total.toFixed(0));
 }
 
 window.onload = function () {
-	// Establecer un retraso de 2000 milisegundos (2 segundos) antes de ejecutar la función
-	setTimeout(calculadoraDeIva, 2000);
+	setTimeout(ventaDeIlustraciones, 2000);
 };
